@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MPU6050 IMU Validation Platform
 
 ## Overview
@@ -40,3 +41,7 @@ The system is organized into three main layers:
 
 ## Architecture Diagram
 ![Architecture Diagram](docs/mvp_architecture.png)
+=======
+# mpu6050_validation_platform
+MPU6050 I2C validation platform on Raspberry Pi using a Python reference model and a custom C driver to verify register configuration, data parsing, scaling, and sensor output correctness.
+>>>>>>> 993ae7c4caab39eb77f1f245a5ad9eccd04353b0

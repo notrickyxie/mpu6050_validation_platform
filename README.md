@@ -27,7 +27,7 @@ The system is organized into three main layers:
 2. **Software layer**  
     Two software paths are used:
     - a **Python golden model** that serves as the reference
-    - a **custom C driver** using the Linux **I2C userspace interface** (`i2c-dev`) that serves as the DUT
+    - a **custom C driver** using the Linux **I2C userspace interface** (`i2c-dev`) with (`ioctl`) that serves as the DUT
 
 3. **Validation layer**  
    Logged outputs from both paths are compared to evaluate:

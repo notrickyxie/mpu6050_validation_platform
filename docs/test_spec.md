@@ -8,7 +8,7 @@ This project is a hardware-software validation platform built around an **MPU605
 - MPU6050 IMU
 - I2C interface
 - Python golden model
-- C DUT using Linux `i2c-dev`
+- C DUT using Linux `i2c-dev` and `ioctl`
 - Servo-based motion fixture for repeatable angle changes
 
 ## Validation Approach

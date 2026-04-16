@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # MPU6050 IMU Validation Platform
 
 ## Overview
@@ -26,7 +25,7 @@ The system is organized into three main layers:
 
 2. **Software layer**  
     Two software paths are used:
-    - a **Python golden model** that serves as the reference
+    - a **Python golden model** that serves as the reference. Adapted from the Adafruit MPU6050 driver using (`i2c-dev`) with (`ioctl`) instead of relying on the original Adafruit bus interface.
     - a **custom C driver** using the Linux **I2C userspace interface** (`i2c-dev`) with (`ioctl`) that serves as the DUT
 
 3. **Validation layer**  

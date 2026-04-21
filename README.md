@@ -34,7 +34,7 @@ The system is organized into three main layers:
     - raw accelerometer and gyroscope agreement
     - scaling into engineering units
     - stationary bias and drift
-    - response during simple motion tests
+    - response during servo-driven motion fixture for repeatable angle profiles
 
     These results are then checked against defined pass/fail thresholds to determine whether the custom implementation behaves correctly.
 

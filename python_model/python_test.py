@@ -13,6 +13,7 @@ mpu = MPU6050("/dev/i2c-1", 0x68)
 
 try:
     with open(LOG_FILE, "w", newline="") as f:
+        f.write(f"# WHO_AM_I={mpu.device_id}\n")
         writer = csv.writer(f)
         writer.writerow([
             "timestamp_s",

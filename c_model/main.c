@@ -8,11 +8,12 @@ static double timestamp_s(void) {
 }
 
 int main() {
+    MPU6050_t dev = MPU6050_init("/dev/i2c-1", _MPU6050_DEVICE_ID);
+
     char *f = "logs/cmodel_log.csv";
     FILE *file = fopen(f, "w");
+    fprintf(file, "# WHO_AM_I=%d\n", device_id(&dev));
     fprintf(file,"timestamp_s,ax,ay,az,gx,gy,gz\n");
-
-    MPU6050_t dev = MPU6050_init("/dev/i2c-1", _MPU6050_DEVICE_ID);
 
     printf("%x\n",device_id(&dev));
 

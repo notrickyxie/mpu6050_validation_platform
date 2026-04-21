@@ -61,6 +61,9 @@ Expected behavior:
 - device exits sleep mode successfully
 - no initialization or register access failure
 
+### Motion Test Assumption
+The listed servo angles represent commanded positions, not calibrated physical angles. Because this project compares the C DUT against the Python golden model under the same input motion, exact angle accuracy is less important than repeatability and consistency between runs.
+
 ### TC2 - Static Rest
 Description:  
 The IMU remains flat and stationary for 10 seconds.
@@ -75,57 +78,79 @@ Expected behavior:
 
 ### TC3 - Servo Step Angle Test
 Description:  
-The servo moves the IMU to fixed angular positions, for example:
-- 0 degrees
-- 30 degrees
-- 60 degrees
-- 90 degrees
-
-with a hold period at each step.
+The servo moves the IMU through the commanded step profile:
+- 0 degrees for 3 seconds
+- 30 degrees for 3 seconds
+- 60 degrees for 3 seconds
+- 90 degrees for 3 seconds
+- 120 degrees for 3 seconds
+- 150 degrees for 3 seconds
+- 180 degrees for 3 seconds
+- 150 degrees for 3 seconds
+- 120 degrees for 3 seconds
+- 90 degrees for 3 seconds
+- 60 degrees for 3 seconds
+- 30 degrees for 3 seconds
+- 0 degrees for 3 seconds
 
 Purpose:  
-Verify that the DUT tracks repeatable motion changes similarly to the Python golden model.
+Verify that the DUT tracks repeatable position changes and settles correctly at each commanded hold angle compared to the Python golden model.
 
 Expected behavior:
 - stable output at each hold position
-- consistent sign and scaling
+- clear transitions between commanded angles
+- consistent sign and scaling across the full commanded range
 - small steady-state error relative to reference
 
 ### TC4 - Slow Servo Sweep
 Description:  
-The servo sweeps slowly through a defined angular range, for example 0 to 90 degrees and back.
+The servo follows the commanded slow sweep profile:
+- sweep from 0 degrees to 180 degrees in 5 degree steps
+- hold each step for 0.25 seconds
+- sweep back from 175 degrees to 0 degrees in 5 degree steps
+- hold each step for 0.25 seconds
 
 Purpose:  
-Verify agreement during smooth motion and check for lag or scaling mismatch.
+Verify agreement during smooth low-speed motion and check for lag, scaling mismatch, or timing offset between the DUT and the Python golden model.
 
 Expected behavior:
 - smooth change in accelerometer and gyroscope outputs
 - similar trend and shape between Python and C logs
-- limited timing mismatch
+- limited timing mismatch during the sweep
+- no missing or corrupted samples during continuous motion
 
 ### TC5 - Fast Servo Sweep
 Description:  
-The servo performs a faster sweep through the same angular range.
+The servo follows the commanded fast sweep profile:
+- sweep from 0 degrees to 180 degrees in 10 degree steps
+- hold each step for 0.10 seconds
+- sweep back from 170 degrees to 0 degrees in 10 degree steps
+- hold each step for 0.10 seconds
 
 Purpose:  
-Test whether the DUT still tracks the motion correctly under higher-rate motion.
+Test whether the DUT still tracks the commanded motion correctly during higher-rate movement.
 
 Expected behavior:
-- correct sign and direction
-- no major spikes or missing sections
-- acceptable deviation from Python golden model
+- correct sign and direction during rapid motion
+- no major spikes, dropouts, or missing sections
+- acceptable deviation from the Python golden model
+- consistent response during both forward and return sweeps
 
 ### TC6 - Repeated Cycle Test
 Description:  
-The servo repeats the same movement cycle multiple times, such as:
-0 degrees -> 90 degrees -> 0 degrees, repeated 10 times.
+The servo repeats the commanded cycle 10 times:
+- 0 degrees for 1 second
+- 90 degrees for 1 second
+- 180 degrees for 1 second
+- 90 degrees for 1 second
 
 Purpose:  
-Check repeatability and look for drift, missed samples, or accumulating error.
+Check repeatability over repeated cycles and look for drift, missed samples, or accumulating error over time.
 
 Expected behavior:
-- similar output on each cycle
-- low drift over repeated cycles
+- similar output on each repeated cycle
+- low drift over the full test duration
+- consistent response at each repeated commanded angle
 - no register-read, parser, or logging failure
 
 ### TC7 - Stress / Fault Case

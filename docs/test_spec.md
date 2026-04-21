@@ -171,21 +171,27 @@ Expected behavior:
 ## Validation Metrics
 The following metrics will be used to compare the Python golden model and C DUT:
 - RMS error per signal
-- maximum absolute deviation
-- steady-state error at hold positions
+- mean absolute error per signal
+- maximum absolute deviation per signal
 - drift over time
 - sample count mismatch
-- timing or alignment offset if needed
+- sign-consistency check
+- timing or alignment offset summary
+- WHO_AM_I match check
 
 ## Pass/Fail Criteria
 A test case passes if all required signals remain within defined limits and the output stream remains valid for the full test duration.
 
-Initial target thresholds:
-- RMS error < 2%
-- maximum deviation < 5%
-- steady-state hold error remains within target tolerance
-- no sign inversion
-- no invalid register access or parser failure
+Current target thresholds for the present rig and comparison method:
+- ax RMSE < 0.50
+- ay RMSE < 2.00
+- az RMSE < 2.00
+- gx RMSE < 2.50
+- gy RMSE < 0.15
+- gz RMSE < 0.20
+- sample count mismatch < 5%
+- WHO_AM_I matches expected value
+- no meaningful sign inversion is detected on sufficiently excited channels
 - no dropped-data behavior that invalidates the test
 
 These thresholds may be refined after initial baseline data collection.

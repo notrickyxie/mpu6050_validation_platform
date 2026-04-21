@@ -1,0 +1,26 @@
+MPU6050 Validation Results
+======================================================================================================================================================
+Python log     : /home/rpi/Documents/rpi/mpu6050_validation_platform/logs/python_log.csv
+C model log    : /home/rpi/Documents/rpi/mpu6050_validation_platform/logs/cmodel_log.csv
+Python samples : 242
+C model samples: 242
+Compared       : 242
+Sample mismatch: 0.00%
+Sample mismatch limit: 5.00%
+Initial zero rows trimmed: yes
+WHO_AM_I       : Python=104 C=104 -> PASS
+Python avg sample period : 0.502286 s
+C model avg sample period: 0.501334 s
+Start timestamp offset   : -123.752280 s
+End timestamp offset     : -123.981821 s
+
+Signal       Py Mean      C Mean    Mean Err         MAE        RMSE     Max Err    Py Drift     C Drift   Drift Err   Sign Flip       Limit    Result
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ax          0.460409    0.047524   -0.412885    0.459461    0.562991    2.188300    0.084156    0.018268   -0.065888       False    0.500000      FAIL
+ay         -4.946262   -0.492474    4.453788    4.589990    5.791713   11.711956   -5.672702   -0.568407    5.104294       False    2.000000      FAIL
+az          4.272077    0.424888   -3.847189    5.902265    6.491212    9.339541   -5.199967   -0.542490    4.657476       False    2.000000      FAIL
+gx          0.004628    0.040280    0.035651    1.423957    2.300062    9.052263    0.569510   -0.054905   -0.624415       False    2.500000      PASS
+gy         -0.032394   -0.051933   -0.019538    0.053172    0.091718    0.903974    0.010705    0.007208   -0.003497       False    0.150000      PASS
+gz         -0.017766   -0.037605   -0.019839    0.091583    0.162191    0.852280    0.039590   -0.003651   -0.043240       False    0.200000      PASS
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Overall result: FAIL

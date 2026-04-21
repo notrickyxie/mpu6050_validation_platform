@@ -59,7 +59,7 @@ void read_accel(MPU6050_t *dev){
 }
 
 float scale_accel(float a) {
-    float accel_scale = 1.0f / 16384.0f;   // for +/- 2g range
+    float accel_scale = 1.0f / 163840.0f;   // for +/- 2g range
     return a * accel_scale * STANDARD_GRAVITY;
 }
 

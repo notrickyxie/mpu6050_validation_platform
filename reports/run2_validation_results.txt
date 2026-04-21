@@ -1,0 +1,26 @@
+MPU6050 Validation Results
+======================================================================================================================================================
+Python log     : /home/rpi/Documents/rpi/mpu6050_validation_platform/logs/python_log.csv
+C model log    : /home/rpi/Documents/rpi/mpu6050_validation_platform/logs/cmodel_log.csv
+Python samples : 242
+C model samples: 242
+Compared       : 242
+Sample mismatch: 0.00%
+Sample mismatch limit: 5.00%
+Initial zero rows trimmed: yes
+WHO_AM_I       : Python=104 C=104 -> PASS
+Python avg sample period : 0.502356 s
+C model avg sample period: 0.501343 s
+Start timestamp offset   : -123.659767 s
+End timestamp offset     : -123.903771 s
+
+Signal       Py Mean      C Mean    Mean Err         MAE        RMSE     Max Err    Py Drift     C Drift   Drift Err   Sign Flip       Limit    Result
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ax          0.469818    0.454117   -0.015701    0.120175    0.256044    2.080561    0.182318    0.180762   -0.001556       False    0.500000      PASS
+ay         -4.830529   -4.834309   -0.003779    0.414375    0.822413    7.252037   -5.694130   -5.565202    0.128928       False    2.000000      PASS
+az          4.228882    4.233601    0.004719    0.413910    0.955780    9.188946   -5.251921   -5.383961   -0.132040       False    2.000000      PASS
+gx          0.006871    0.085866    0.078995    0.901632    1.737682    8.877864   -0.096320   -0.044992    0.051327       False    2.500000      PASS
+gy         -0.029963   -0.052027   -0.022065    0.046799    0.089192    0.897979    0.044979   -0.007128   -0.052107       False    0.150000      PASS
+gz         -0.019612   -0.040822   -0.021210    0.056728    0.100984    0.535856   -0.012051    0.009246    0.021297       False    0.200000      PASS
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Overall result: PASS

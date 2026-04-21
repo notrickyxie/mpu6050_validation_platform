@@ -2,11 +2,12 @@ import gpiod
 from time import sleep, time
 
 PWM_PERIOD_S = 0.020      # 20 ms period = 50 Hz
-MIN_PULSE_S = 0.00075      # 0.5 ms pulse
-MAX_PULSE_S = 0.00225      # 2.5 ms pulse
+MIN_PULSE_S = 0.00075
+MAX_PULSE_S = 0.00225
 
 GPIO_CHIP = "/dev/gpiochip0"
 SERVO_GPIO = 18
+
 
 def angle_to_pulse(angle_deg):
     if angle_deg < 0:
@@ -16,7 +17,6 @@ def angle_to_pulse(angle_deg):
 
     pulse_range = MAX_PULSE_S - MIN_PULSE_S
     pulse_width = MIN_PULSE_S + (angle_deg / 180.0) * pulse_range
-
     return pulse_width
 
 
@@ -30,11 +30,20 @@ def send_servo_pulse(servo_req, angle_deg):
     sleep(PWM_PERIOD_S - pulse_width)
 
 
-def hold_angle(line, angle_deg, hold_time_s):
+def hold_angle(servo_req, angle_deg, hold_time_s):
     start_time = time()
-
     while time() - start_time < hold_time_s:
-        send_servo_pulse(line, angle_deg)
+        send_servo_pulse(servo_req, angle_deg)
+
+
+SYNC_PULSE = [
+    (0, 2.0),
+    (180, 0.5),
+    (0, 0.5),
+    (180, 0.5),
+    (0, 2.0),
+]
+
 TC2_STATIC_REST = [(0, 10)]
 
 TC3_SERVO_STEP = [
@@ -80,6 +89,20 @@ profiles = {
     "TC6_REPEATED_CYCLE": TC6_REPEATED_CYCLE,
 }
 
+
+def run_profile(servo_req, profile, name):
+    print(f"\nRunning sync pulse for {name}")
+    for angle, hold_time in SYNC_PULSE:
+        print(f"[SYNC] Moving to {angle} degrees for {hold_time} seconds")
+        hold_angle(servo_req, angle, hold_time)
+
+    print(f"\nStarting {name}")
+    for angle, hold_time in profile:
+        print(f"Moving to {angle} degrees for {hold_time} seconds")
+        hold_angle(servo_req, angle, hold_time)
+    print(f"Finished {name}")
+
+
 def main():
     chip = gpiod.Chip(GPIO_CHIP)
 
@@ -97,17 +120,11 @@ def main():
 
     try:
         for test_name, profile in profiles.items():
-            print(f"\nStarting {test_name}")
-
-            for angle, hold_time in profile:
-                print(f"Moving to {angle} degrees for {hold_time} seconds")
-                hold_angle(servo_req, angle, hold_time)
-
-            print(f"Finished {test_name}")
+            run_profile(servo_req, profile, test_name)
 
     finally:
-        hold_angle(servo_req, 0, 0.1)
-        servo_req.set_value(SERVO_GPIO, gpiod.line.Value.ACTIVE)
+        hold_angle(servo_req, 0, 0.5)
+        servo_req.set_value(SERVO_GPIO, gpiod.line.Value.INACTIVE)
         servo_req.release()
         chip.close()
 
